@@ -1,6 +1,9 @@
 package parser;
 
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import shop.Cart;
 import shop.RealItem;
 import shop.VirtualItem;
@@ -14,8 +17,6 @@ public class PositiveJSonParserTest {
     private final JsonParser jsonParser = new JsonParser();
     private Cart cart;
     private File cartFile;
-    private RealItem realItem;
-    private Cart readFromJsonCart;
 
     @Parameters({"vItemName", "vItemSize", "vItemPrice", "rItemName", "rItemWeight", "vItemPrice", "cartName"})
     @BeforeClass(groups = {"smoke_test"})
@@ -27,7 +28,7 @@ public class PositiveJSonParserTest {
         virtualItem.setSizeOnDisk(vItemSize);
         virtualItem.setPrice(vItemPrice);
 
-        realItem = new RealItem();
+        RealItem realItem = new RealItem();
         realItem.setName(rItemName);
         realItem.setWeight(rItemWeight);
         realItem.setPrice(rItemPrice);
@@ -42,7 +43,7 @@ public class PositiveJSonParserTest {
         cartFile.deleteOnExit();
     }
 
-    @Test(groups = {"smoke_test"}, priority = 1)
+    @Test(groups = {"smoke_test"})
     public void writeToFileTest(){
         jsonParser.writeToFile(cart);
 
@@ -51,20 +52,15 @@ public class PositiveJSonParserTest {
         assertTrue(cartFile.exists(), String.format("File %s doesn't exist", cart.getCartName() + ".json"));
     }
 
-    @Test(groups = {"smoke_test"}, priority = 2)
-    public void readFromFileTest(){
-        readFromJsonCart = jsonParser.readFromFile(cartFile);
-    }
+    @Parameters({"jsonFilePath", "jsonCartName", "jsonCartPrice"})
+    @Test(groups = {"smoke_test"})
+    public void readFromFileTest(String jsonFilePath, String jsonCartName, double jsonCartPrice){
+        cartFile = new File(jsonFilePath);
+        Cart readFromJsonCart = jsonParser.readFromFile(cartFile);
 
-    @Parameters({"cartName"})
-    @Test(groups = {"smoke_test"}, priority = 3)
-    public void cartNameFromFileTest(String cartName){
-        assertEquals(cartName, readFromJsonCart.getCartName(), "Expected and actual cart name mismatch");
-    }
-
-    @Test(groups = {"smoke_test"}, priority = 4)
-    public void cartPriceFromFileTest(){
-        assertEquals(cart.getTotalPrice(), readFromJsonCart.getTotalPrice(),
+        assertEquals(jsonCartName, readFromJsonCart.getCartName(),
+                "Expected and actual cart name mismatch");
+        assertEquals(jsonCartPrice, readFromJsonCart.getTotalPrice(),
                 "Expected and actual total price mismatch");
     }
 

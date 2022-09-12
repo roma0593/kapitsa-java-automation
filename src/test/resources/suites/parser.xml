@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="parser suite">
-    <test preserve-order="true" name="positive parser test">
+    <test name="positive parser test">
         <parameter name="vItemName" value="WOT"/>
         <parameter name="vItemSize" value="70.20"/>
         <parameter name="vItemPrice" value="50.50"/>
@@ -9,6 +9,9 @@
         <parameter name="rItemWeight" value="150.0"/>
         <parameter name="rItemPrice" value="1.5"/>
         <parameter name="cartName" value="my_cart"/>
+        <parameter name="jsonFilePath" value="src/main/resources/andrew-cart.json"/>
+        <parameter name="jsonCartName" value="andrew-cart"/>
+        <parameter name="jsonCartPrice" value="38445.47999999999"/>
 
         <groups>
             <run>
