@@ -14,31 +14,24 @@ public class PositiveJSonParserTest {
     private final JsonParser jsonParser = new JsonParser();
     private Cart cart;
     private File cartFile;
-    private VirtualItem virtualItem;
     private RealItem realItem;
     private Cart readFromJsonCart;
 
-    @Parameters({"vItemName", "vItemSize", "vItemPrice"})
+    @Parameters({"vItemName", "vItemSize", "vItemPrice", "rItemName", "rItemWeight", "vItemPrice", "cartName"})
     @BeforeClass(groups = {"smoke_test"})
-    public void createVirtualItem(String vItemName, double vItemSize, double vItemPrice){
-        virtualItem = new VirtualItem();
+    public void createCartWithItemsTest(String vItemName, double vItemSize, double vItemPrice, String rItemName,
+                                  double rItemWeight, double rItemPrice, String cartName){
+
+        VirtualItem virtualItem = new VirtualItem();
         virtualItem.setName(vItemName);
         virtualItem.setSizeOnDisk(vItemSize);
         virtualItem.setPrice(vItemPrice);
-    }
 
-    @Parameters({"rItemName", "rItemWeight", "vItemPrice"})
-    @BeforeClass(groups = {"smoke_test"})
-    public void createRealItem(String rItemName, double rItemWeight, double rItemPrice){
         realItem = new RealItem();
         realItem.setName(rItemName);
         realItem.setWeight(rItemWeight);
         realItem.setPrice(rItemPrice);
-    }
 
-    @Parameters({"cartName"})
-    @BeforeClass(dependsOnMethods = {"createRealItem", "createVirtualItem"}, groups = {"smoke_test"})
-    public void createCart(String cartName){
         cart = new Cart(cartName);
         cart.addVirtualItem(virtualItem);
         cart.addRealItem(realItem);
@@ -49,7 +42,7 @@ public class PositiveJSonParserTest {
         cartFile.deleteOnExit();
     }
 
-    @Test(groups = {"smoke_test"})
+    @Test(groups = {"smoke_test"}, priority = 1)
     public void writeToFileTest(){
         jsonParser.writeToFile(cart);
 
@@ -58,18 +51,18 @@ public class PositiveJSonParserTest {
         assertTrue(cartFile.exists(), String.format("File %s doesn't exist", cart.getCartName() + ".json"));
     }
 
-    @Test(dependsOnMethods = {"writeToFileTest"}, groups = {"smoke_test"})
+    @Test(groups = {"smoke_test"}, priority = 2)
     public void readFromFileTest(){
         readFromJsonCart = jsonParser.readFromFile(cartFile);
     }
 
     @Parameters({"cartName"})
-    @Test(dependsOnMethods = {"readFromFileTest"}, groups = {"smoke_test"})
+    @Test(groups = {"smoke_test"}, priority = 3)
     public void cartNameFromFileTest(String cartName){
         assertEquals(cartName, readFromJsonCart.getCartName(), "Expected and actual cart name mismatch");
     }
 
-    @Test(dependsOnMethods = {"readFromFileTest"}, groups = {"smoke_test"})
+    @Test(groups = {"smoke_test"}, priority = 4)
     public void cartPriceFromFileTest(){
         assertEquals(cart.getTotalPrice(), readFromJsonCart.getTotalPrice(),
                 "Expected and actual total price mismatch");
@@ -79,6 +72,7 @@ public class PositiveJSonParserTest {
     public void writeToFileCartWithEmptyFields(){
         VirtualItem emptyVirtualItem = new VirtualItem();
         RealItem emptyRealItem = new RealItem();
+
         cart.addVirtualItem(emptyVirtualItem);
         cart.addRealItem(emptyRealItem);
 

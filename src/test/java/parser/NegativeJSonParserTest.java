@@ -2,10 +2,7 @@ package parser;
 
 import com.google.gson.JsonSyntaxException;
 import listeners.ExceptionListener;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import shop.Cart;
 
 import java.io.File;
@@ -39,7 +36,7 @@ public class NegativeJSonParserTest {
         fileWriter.close();
     }
 
-    @BeforeClass
+    @AfterClass
     public static void removeFiles() {
         emptyFile.deleteOnExit();
         nonJsonFile.deleteOnExit();

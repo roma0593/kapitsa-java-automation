@@ -1,8 +1,6 @@
 package cart;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import shop.Cart;
 import shop.RealItem;
 import shop.VirtualItem;
@@ -23,7 +21,7 @@ public class PositiveCartTest {
     private static final double VIRTUAL_ITEM_PRICE = 30.0;
 
 
-    @Test
+    @BeforeClass
     public static void createItems(){
 
         realItem = new RealItem();
@@ -38,9 +36,9 @@ public class PositiveCartTest {
     }
 
     @Parameters({"cartName"})
-    @BeforeTest
+    @BeforeMethod
     public void createCart(String cartName){
-        cart = new Cart("my cart");
+        cart = new Cart(cartName);
     }
 
     @Test
@@ -48,7 +46,7 @@ public class PositiveCartTest {
         assertEquals(0.00, cart.getTotalPrice(), "Real and total cart price mismatch");
     }
 
-    @Test(dependsOnMethods = {"createItems"})
+    @Test
     public void addRealItemTest(){
         cart.addRealItem(realItem);
         totalCartPrice = cart.getTotalPrice();
@@ -57,13 +55,13 @@ public class PositiveCartTest {
         assertEquals(totalCartPrice, realItemPriceInCart, "Real and total cart price mismatch");
     }
 
-    @Test(dependsOnMethods = {"addRealItemTest"})
+    @Test
     public void addVirtualItemTest(){
         cart.addVirtualItem(virtualItem);
         totalCartPrice = cart.getTotalPrice();
         double virtualItemPriceInCart = virtualItem.getPrice() * TAX;
 
-        assertEquals(totalCartPrice - realItem.getPrice() * TAX, virtualItemPriceInCart,
+        assertEquals(totalCartPrice, virtualItemPriceInCart,
                 "Real and total cart price mismatch");
     }
 }
