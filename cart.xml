@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="cart test suit">
+    <test name="positive cart test">
+        <parameter name="cartName" value="my cart"/>
+        <packages>
+            <package name="cart"/>
+        </packages>
+    </test>
+</suite>
