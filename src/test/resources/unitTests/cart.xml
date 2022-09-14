@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="com.coherent.training.selenium.kapitsa.cart test suit">
+    <test name="positive com.coherent.training.selenium.kapitsa.cart test">
+        <parameter name="cartName" value="my com.coherent.training.selenium.kapitsa.cart"/>
+        <packages>
+            <package name="com.coherent.training.selenium.kapitsa.cart"/>
+        </packages>
+    </test>
+</suite>

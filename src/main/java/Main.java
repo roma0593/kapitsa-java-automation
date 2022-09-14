@@ -1,15 +1,15 @@
-import parser.JsonParser;
-import parser.Parser;
-import shop.Cart;
-import shop.RealItem;
-import shop.VirtualItem;
+import com.coherent.training.selenium.kapitsa.parser.JsonParser;
+import com.coherent.training.selenium.kapitsa.parser.Parser;
+import com.coherent.training.selenium.kapitsa.shop.Cart;
+import com.coherent.training.selenium.kapitsa.shop.RealItem;
+import com.coherent.training.selenium.kapitsa.shop.VirtualItem;
 
 import java.io.File;
 
 public class Main {
 
     public static void main(String[] args) {
-        Cart andrewCart = new Cart("andrew-cart");
+        Cart andrewCart = new Cart("andrew-com.coherent.training.selenium.kapitsa.cart");
 
         RealItem car = new RealItem();
         car.setName("Audi");
@@ -28,7 +28,7 @@ public class Main {
         Parser parser = new JsonParser();
         parser.writeToFile(andrewCart);
 
-        Cart eugenCart = parser.readFromFile(new File("src/main/resources/eugen-cart.json"));
+        Cart eugenCart = parser.readFromFile(new File("src/main/resources/eugen-com.coherent.training.selenium.kapitsa.cart.json"));
         eugenCart.showItems();
     }
 }

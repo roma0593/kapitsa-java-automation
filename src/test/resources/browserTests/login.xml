@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Login Suite">
+    <test name="positive login test">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="login" value="nehosi2312"/>
+        <parameter name="pass" value="TESTtest0987!@#$"/>
+
+        <classes>
+            <class name="com.coherent.training.selenium.kapitsa.web.yandex.PositiveLoginTest"/>
+        </classes>
+    </test>
+</suite>
