@@ -1,14 +1,23 @@
 package com.coherent.training.selenium.kapitsa.web.yandex;
 
 import com.coherent.training.selenium.kapitsa.web.base.BaseTest;
+import com.coherent.training.selenium.kapitsa.web.pages.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class PositiveLoginTest extends BaseTest {
+import java.time.Duration;
+
+public class LoginTest extends BaseTest {
+
     @Parameters({"login", "pass"})
     @Test
-    public void validLoginTest(String login, String pass){
+    public void login(String login, String pass){
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().window().maximize();
+        driver.get("https://mail.yandex.com/");
+        mainPage = new MainPage(driver);
+
         loginPage = mainPage.getLoginPage();
         mailBoxPage = loginPage.loginWithValidCredentials(login, pass);
 

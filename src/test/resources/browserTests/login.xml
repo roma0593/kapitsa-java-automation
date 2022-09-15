@@ -7,7 +7,7 @@
         <parameter name="pass" value="TESTtest0987!@#$"/>
 
         <classes>
-            <class name="com.coherent.training.selenium.kapitsa.web.yandex.PositiveLoginTest"/>
+            <class name="com.coherent.training.selenium.kapitsa.web.yandex.LoginTest"/>
         </classes>
     </test>
 </suite>

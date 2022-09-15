@@ -5,8 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.time.Duration;
 
-public class LoginPage{
-    private WebDriver driver;
+public class LoginPage extends BasePageObject{
     private final By title = By.xpath("//span[@class='passp-add-account-page-title']");
     private final By mailButton = By.xpath("//span[text()='Mail']//ancestor::button");
     private final By phoneNumberButton = By.xpath("//span[text()='Phone number']//ancestor::button");
@@ -22,15 +21,16 @@ public class LoginPage{
     private final By twitterIcon = By.xpath("//button[@aria-label='Twitter']");
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public MailBoxPage loginWithValidCredentials(String login, String pass){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        driver.findElement(loginField).sendKeys(login);
-        driver.findElement(loginButton).click();
-        driver.findElement(passField).sendKeys(pass);
-        driver.findElement(loginButton).click();
+
+        type(loginField, login);
+        clickOn(loginButton);
+        type(passField, pass);
+        clickOn(loginButton);
 
         return new MailBoxPage(driver);
     }
