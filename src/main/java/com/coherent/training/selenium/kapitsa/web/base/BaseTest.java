@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
+import java.time.Duration;
+
 public class BaseTest {
     protected WebDriver driver;
     protected MainPage mainPage;
@@ -20,6 +22,9 @@ public class BaseTest {
     public void setUp(String browser){
         BrowserDriverFactory factory = new BrowserDriverFactory(browser);
         driver = factory.createDriver();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().window().maximize();
     }
 
     @AfterMethod

@@ -13,13 +13,11 @@ public class LoginTest extends BaseTest {
     @Parameters({"login", "pass"})
     @Test
     public void login(String login, String pass){
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        driver.manage().window().maximize();
         driver.get("https://mail.yandex.com/");
         mainPage = new MainPage(driver);
 
         loginPage = mainPage.getLoginPage();
-        mailBoxPage = loginPage.loginWithValidCredentials(login, pass);
+        mailBoxPage = loginPage.login(login, pass);
 
         Assert.assertEquals(login, mailBoxPage.getProfileNickname(), "Expected and actual nickname mismatch");
     }

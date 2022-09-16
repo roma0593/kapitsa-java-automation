@@ -24,15 +24,23 @@ public class LoginPage extends BasePageObject{
         super(driver);
     }
 
-    public MailBoxPage loginWithValidCredentials(String login, String pass){
+    public MailBoxPage login(String login, String pass){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
+        enterCredentials(login, pass);
+        clickOnLoginButton(loginButton);
+
+        return new MailBoxPage(driver);
+    }
+
+    public void enterCredentials(String login, String pass){
         type(loginField, login);
         clickOn(loginButton);
         type(passField, pass);
-        clickOn(loginButton);
+    }
 
-        return new MailBoxPage(driver);
+    public void clickOnLoginButton(By loginButton){
+        clickOn(loginButton);
     }
 
 }
