@@ -1,9 +1,9 @@
-package com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy;
+package com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.tablepage;
 
 public class TableRecord {
-    private String name;
-    private String position;
-    private String office;
+    private final String name;
+    private final String position;
+    private final String office;
 
     public TableRecord(String name, String position, String office) {
         this.name = name;
@@ -21,18 +21,6 @@ public class TableRecord {
 
     public String getOffice() {
         return office;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public void setOffice(String office) {
-        this.office = office;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.coherent.training.selenium.kapitsa.web.seleniumeasy;
 
 import com.coherent.training.selenium.kapitsa.web.base.BaseTest;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.*;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.tablepage.TableSortSearchPage;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Parameters;
@@ -93,13 +94,13 @@ public class SeleniumEasyTests extends BaseTest {
                 "Expected and actual result mismatch");
     }
 
-    @Parameters({"minAge", "maxSalary"})
+    @Parameters({"age", "salary", "ageCondition", "salCondition"})
     @Test
-    public void getTableRecordsSortedByAgeAndSalaryTest(int minAge, int maxSalary){
+    public void getTableRecordsSortedByAgeAndSalaryTest(int age, int salary, String ageCondition, String salCondition){
         driver.get(SELENIUM_TABLE_SORT_SEARCH.getUrl());
 
         tableSortSearchPage = new TableSortSearchPage(driver);
 
-        System.out.println(tableSortSearchPage.getListOfRecordsSortedByAgeAndSalary(minAge, maxSalary));
+        System.out.println(tableSortSearchPage.getListOfRecordsSortedByAgeAndSalary(age, salary, ageCondition, salCondition));
     }
 }

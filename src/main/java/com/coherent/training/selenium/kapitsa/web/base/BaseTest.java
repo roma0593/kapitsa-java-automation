@@ -1,6 +1,7 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.*;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.tablepage.TableSortSearchPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.LoginPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MailBoxPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MainPage;
