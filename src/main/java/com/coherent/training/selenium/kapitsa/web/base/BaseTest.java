@@ -1,11 +1,12 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
-import com.coherent.training.selenium.kapitsa.web.pages.LoginPage;
-import com.coherent.training.selenium.kapitsa.web.pages.MailBoxPage;
-import com.coherent.training.selenium.kapitsa.web.pages.MainPage;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.*;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.tablepage.TableSortSearchPage;
+import com.coherent.training.selenium.kapitsa.web.pages.yandex.LoginPage;
+import com.coherent.training.selenium.kapitsa.web.pages.yandex.MailBoxPage;
+import com.coherent.training.selenium.kapitsa.web.pages.yandex.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
@@ -16,6 +17,11 @@ public class BaseTest {
     protected MainPage mainPage;
     protected LoginPage loginPage;
     protected MailBoxPage mailBoxPage;
+    protected DropdownPage dropdownPage;
+    protected AlertsPage alertsPage;
+    protected DownloadProgressPage downloadProgressPage;
+    protected DynamicDataLoadingPage dynamicDataLoadingPage;
+    protected TableSortSearchPage tableSortSearchPage;
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
@@ -23,7 +29,7 @@ public class BaseTest {
         BrowserDriverFactory factory = new BrowserDriverFactory(browser);
         driver = factory.createDriver();
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
         driver.manage().window().maximize();
     }
 

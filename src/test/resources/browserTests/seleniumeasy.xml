@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SeleniumEasy suit">
+    <parameter name="browser" value="chrome"/>
+    <parameter name="numberOfOptionsToSelect" value="3"/>
+    <parameter name="percent" value="50%"/>
+    <parameter name="age" value="30"/>
+    <parameter name="salary" value="200000"/>
+    <parameter name="ageCondition" value="more"/>
+    <parameter name="salCondition" value="lessOrEqual"/>
+    <parameter name="numberOfEntries" value="10"/>
+
+    <test name="seleniumEasyTest">
+        <classes>
+            <class name="com.coherent.training.selenium.kapitsa.web.seleniumeasy.SeleniumEasyTests"/>
+        </classes>
+    </test>
+</suite>

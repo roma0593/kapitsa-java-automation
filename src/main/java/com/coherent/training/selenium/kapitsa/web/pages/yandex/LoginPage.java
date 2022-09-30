@@ -1,11 +1,12 @@
-package com.coherent.training.selenium.kapitsa.web.pages;
+package com.coherent.training.selenium.kapitsa.web.pages.yandex;
 
+import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.time.Duration;
 
-public class LoginPage extends BasePageObject{
+public class LoginPage extends BasePageObject {
     private final By title = By.xpath("//span[@class='passp-add-account-page-title']");
     private final By mailButton = By.xpath("//span[text()='Mail']//ancestor::button");
     private final By phoneNumberButton = By.xpath("//span[text()='Phone number']//ancestor::button");
