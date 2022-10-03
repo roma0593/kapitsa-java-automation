@@ -111,4 +111,8 @@ public class BasePageObject {
     protected void declineAlert(By alertButton){
         openAlert(alertButton).dismiss();
     }
+
+    protected String getPageTitle(){
+        return driver.getTitle();
+    }
 }

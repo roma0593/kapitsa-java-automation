@@ -43,5 +43,4 @@ public class LoginPage extends BasePageObject {
     public void clickOnLoginButton(By loginButton){
         clickOn(loginButton);
     }
-
 }

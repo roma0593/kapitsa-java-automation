@@ -4,10 +4,11 @@ import com.coherent.training.selenium.kapitsa.web.base.BaseTest;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MainPage;
 import com.coherent.training.selenium.kapitsa.web.utils.DataUtilization;
 import lombok.SneakyThrows;
-import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import static com.coherent.training.selenium.kapitsa.web.providers.UrlProvider.YANDEX_MAIL;
+import static org.testng.Assert.assertEquals;
 
 public class LoginTest extends BaseTest {
 
@@ -26,6 +27,20 @@ public class LoginTest extends BaseTest {
 
         mailBoxPage = loginPage.login(username, pass);
 
-        Assert.assertEquals(username, mailBoxPage.getProfileNickname(), "Expected and actual nickname mismatch");
+        assertEquals(username, mailBoxPage.getProfileNickname(), "Expected and actual nickname mismatch");
+    }
+
+    @Parameters({"username", "pass"})
+    @Test
+    public void logout(String username, String pass){
+        driver.get(YANDEX_MAIL.getUrl());
+        mainPage = new MainPage(driver);
+
+        mainPage = mainPage.getLoginPage()
+                .login(username, pass)
+                .logout();
+
+        assertEquals(mainPage.getTitleOfPage(), "Yandex Mail — reliable and easy to use email with spam protection",
+                "Expected and actual title mismatch");
     }
 }

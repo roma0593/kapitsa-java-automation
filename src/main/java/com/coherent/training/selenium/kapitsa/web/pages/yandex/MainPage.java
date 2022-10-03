@@ -15,4 +15,8 @@ public class MainPage extends BasePageObject {
         clickOn(loginButton);
         return new LoginPage(driver);
     }
+
+    public String getTitleOfPage(){
+        return getPageTitle();
+    }
 }
