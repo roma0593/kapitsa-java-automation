@@ -36,9 +36,10 @@ public class LoginTest extends BaseTest {
         driver.get(YANDEX_MAIL.getUrl());
 
         mainPage = new MainPage(driver);
-        loginPage = mainPage.getLoginPage();
-        mailBoxPage = loginPage.login(username, pass);
-        mainPage = mailBoxPage.logout();
+
+        mainPage = mainPage.getLoginPage()
+                .login(username, pass)
+                .logout();
 
         assertEquals(mainPage.getPageTitle(), "Yandex Mail — reliable and easy to use email with spam protection",
                 "Expected and actual page title mismatch");
