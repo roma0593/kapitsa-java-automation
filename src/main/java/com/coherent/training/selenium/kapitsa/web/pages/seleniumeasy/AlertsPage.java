@@ -5,11 +5,19 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 
 public class AlertsPage extends BasePageObject {
-    private final By alertButton = By.xpath("//button[@class='btn btn-default']");
-    private final By confirmAlertButton = By.xpath("//button[@class='btn btn-default btn-lg'][text()='Click me!']");
-    private final By promptAlertButton = By.xpath("//button[text()='Click for Prompt Box']");
+    @CacheLookup
+    @FindBy(xpath = "//button[@class='btn btn-default']")
+    private WebElement alertButton;
+    @CacheLookup
+    @FindBy(xpath = "//button[@class='btn btn-default btn-lg'][text()='Click me!']")
+    private WebElement confirmAlertButton;
+    @CacheLookup
+    @FindBy(xpath = "//button[text()='Click for Prompt Box']")
+    private WebElement promptAlertButton;
 
     public AlertsPage(WebDriver driver) {
         super(driver);
@@ -30,12 +38,12 @@ public class AlertsPage extends BasePageObject {
     public WebElement acceptAlert(){
         confirmAlert(confirmAlertButton);
 
-        return find(By.id("confirm-demo"));
+        return driver.findElement(By.id("confirm-demo"));
     }
 
     public WebElement dismissAlert(){
         declineAlert(confirmAlertButton);
 
-        return find(By.id("confirm-demo"));
+        return driver.findElement(By.id("confirm-demo"));
     }
 }

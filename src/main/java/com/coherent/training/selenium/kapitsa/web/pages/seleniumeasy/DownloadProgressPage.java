@@ -1,12 +1,18 @@
 package com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy;
 
 import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 
 public class DownloadProgressPage extends BasePageObject {
-    private final By downloadButton = By.id("cricle-btn");
-    private final By percentText = By.xpath("//div[@class='percenttext']");
+    @CacheLookup
+    @FindBy(id = "cricle-btn")
+    private WebElement downloadButton;
+    @CacheLookup
+    @FindBy(xpath = "//div[@class='percenttext']")
+    private WebElement percentText;
 
     public DownloadProgressPage(WebDriver driver) {
         super(driver);

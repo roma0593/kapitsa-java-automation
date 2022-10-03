@@ -4,12 +4,19 @@ import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.*;
 
 public class TableSortSearchPage extends BasePageObject {
-    private final By table = By.id("example");
-    private final By showEntriesDropDown = By.name("example_length");
+    @CacheLookup
+    @FindBy(id = "example")
+    private WebElement table;
+    @CacheLookup
+    @FindBy(id = "example_length")
+    private WebElement showEntriesDropDown;
+
     private static final String MAX_NUM_OF_ENTRIES = "100";
     private static final String MORE_CONDITION = "more";
     private static final String LESS_CONDITION = "less";
@@ -33,7 +40,7 @@ public class TableSortSearchPage extends BasePageObject {
     public List<WebElement> getRowsInTable(String numberOfEntries){
         selectNumberOfEntries(numberOfEntries);
 
-        List<WebElement> rows = findElementsAtElement(find(table), By.xpath(".//tr"));
+        List<WebElement> rows = findElementsAtElement(table, By.xpath(".//tr"));
         rows.remove(0);
 
         return rows;
