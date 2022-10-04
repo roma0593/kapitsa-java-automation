@@ -2,7 +2,6 @@ package com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy;
 
 import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -18,6 +17,9 @@ public class AlertsPage extends BasePageObject {
     @CacheLookup
     @FindBy(xpath = "//button[text()='Click for Prompt Box']")
     private WebElement promptAlertButton;
+    @CacheLookup
+    @FindBy(id = "confirm-demo")
+    private WebElement alertMessage;
 
     public AlertsPage(WebDriver driver) {
         super(driver);
@@ -35,15 +37,15 @@ public class AlertsPage extends BasePageObject {
         return openAlert(promptAlertButton);
     }
 
-    public WebElement acceptAlert(){
+    public String acceptAlert(){
         confirmAlert(confirmAlertButton);
 
-        return driver.findElement(By.id("confirm-demo"));
+        return alertMessage.getText();
     }
 
-    public WebElement dismissAlert(){
+    public String dismissAlert(){
         declineAlert(confirmAlertButton);
 
-        return driver.findElement(By.id("confirm-demo"));
+        return alertMessage.getText();
     }
 }
