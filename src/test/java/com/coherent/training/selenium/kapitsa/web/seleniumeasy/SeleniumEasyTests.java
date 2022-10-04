@@ -45,7 +45,7 @@ public class SeleniumEasyTests extends BaseTest {
 
         alertsPage = new AlertsPage(driver);
 
-        assertEquals(alertsPage.acceptAlert().getText(), "You pressed OK!",
+        assertEquals(alertsPage.acceptAlert(), "You pressed OK!",
                 "Expected and actual result mismatch");
     }
 
@@ -55,7 +55,7 @@ public class SeleniumEasyTests extends BaseTest {
 
         alertsPage = new AlertsPage(driver);
 
-        assertEquals(alertsPage.dismissAlert().getText(), "You pressed Cancel!",
+        assertEquals(alertsPage.dismissAlert(), "You pressed Cancel!",
                 "Expected and actual result mismatch");
 
     }

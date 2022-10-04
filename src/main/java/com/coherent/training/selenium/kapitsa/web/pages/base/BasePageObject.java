@@ -1,6 +1,7 @@
 package com.coherent.training.selenium.kapitsa.web.pages.base;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
@@ -16,6 +17,7 @@ public class BasePageObject {
 
     public BasePageObject(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     private void waitForWebElement(ExpectedCondition<WebElement> expectedCondition, Integer timeoutInSeconds){
@@ -35,50 +37,46 @@ public class BasePageObject {
         wbWait.until(booleanExpectedCondition);
     }
 
-    protected void waitForElementToBeVisibleAt(By locator, Integer... timeoutInSeconds){
-        waitForWebElement(ExpectedConditions.visibilityOfElementLocated(locator),
+    protected void waitForElementToBeVisibleAt(WebElement element, Integer... timeoutInSeconds){
+        waitForWebElement(ExpectedConditions.visibilityOf(element),
                 timeoutInSeconds.length > 0 ? timeoutInSeconds[0] : null);
     }
 
-    protected void waitUntilTextToBePresentedInElementLocated(By locator, String text, Integer... timeoutInSeconds){
-        waitForBoolean(ExpectedConditions.textToBePresentInElementLocated(locator, text),
+    protected void waitUntilTextToBePresentedInElementLocated(WebElement element, String text, Integer... timeoutInSeconds){
+        waitForBoolean(ExpectedConditions.textToBePresentInElement(element, text),
                 timeoutInSeconds.length > 0 ? timeoutInSeconds[0] : null);
 
     }
 
-    protected void waitUntilAttributeToBeNotEmpty(By locator, String attribute, Integer... timeoutInSeconds){
-        waitForBoolean(ExpectedConditions.attributeToBeNotEmpty(find(locator), attribute),
+    protected void waitUntilAttributeToBeNotEmpty(WebElement element, String attribute, Integer... timeoutInSeconds){
+        waitForBoolean(ExpectedConditions.attributeToBeNotEmpty(element, attribute),
                 timeoutInSeconds.length > 0 ? timeoutInSeconds[0] : null);
     }
 
-    protected WebElement find(By locator){
-        return driver.findElement(locator);
-    }
-
-    protected WebElement findElementAtElement(By parentLocator, By childLocator){
-        return find(parentLocator).findElement(childLocator);
+    protected WebElement findElementAtElement(WebElement parentElement, By childLocator){
+        return parentElement.findElement(childLocator);
     }
 
     protected List<WebElement> findElementsAtElement(WebElement parentElement, By childLocator){
         return parentElement.findElements(childLocator);
     }
 
-    protected void clickOn(By locator){
-        find(locator).click();
+    protected void clickOn(WebElement element){
+        element.click();
     }
 
-    protected void type(By locator, String value){
-        find(locator).sendKeys(value);
+    protected void type(WebElement element, String value){
+        element.sendKeys(value);
     }
 
     protected void refreshPage(){
         driver.navigate().refresh();
     }
 
-    protected List<WebElement> multiselect(By list, int numberToSelect){
+    protected List<WebElement> multiselect(WebElement list, int numberToSelect){
         Random random = new Random();
 
-        selector = new Select(find(list));
+        selector = new Select(list);
 
         int numberOfOptions = selector.getOptions().size();
 
@@ -92,23 +90,27 @@ public class BasePageObject {
         return selector.getAllSelectedOptions();
     }
 
-    protected void selectDropdownOptionByValue(By dropdown, String value){
-        selector = new Select(find(dropdown));
+    protected void selectDropdownOptionByValue(WebElement dropdown, String value){
+        selector = new Select(dropdown);
 
         selector.selectByValue(value);
     }
 
-    protected Alert openAlert(By alertButton){
+    protected Alert openAlert(WebElement alertButton){
         clickOn(alertButton);
 
         return driver.switchTo().alert();
     }
 
-    protected void confirmAlert(By alertButton){
+    protected void confirmAlert(WebElement alertButton){
         openAlert(alertButton).accept();
     }
 
-    protected void declineAlert(By alertButton){
+    protected void declineAlert(WebElement alertButton){
         openAlert(alertButton).dismiss();
+    }
+
+    protected String getTitle(){
+        return driver.getTitle();
     }
 }
