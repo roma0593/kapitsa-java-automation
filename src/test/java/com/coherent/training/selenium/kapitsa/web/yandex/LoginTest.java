@@ -1,18 +1,17 @@
 package com.coherent.training.selenium.kapitsa.web.yandex;
 
-import com.coherent.training.selenium.kapitsa.web.base.TestUtilities;
+import com.coherent.training.selenium.kapitsa.web.base.BaseTest;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MainPage;
 import com.coherent.training.selenium.kapitsa.web.utils.DataUtilization;
 import lombok.SneakyThrows;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import static com.coherent.training.selenium.kapitsa.web.base.TestUtilities.takeScreenshot;
 import static com.coherent.training.selenium.kapitsa.web.providers.UrlProvider.YANDEX_MAIL;
 import static org.testng.Assert.assertEquals;
 
-@Listeners({com.coherent.training.selenium.kapitsa.web.utils.TestListener.class})
-public class LoginTest extends TestUtilities {
+public class LoginTest extends BaseTest {
     @SneakyThrows
     @Test(dataProviderClass = DataUtilization.class, dataProvider = "credProvider")
     public void login(String username, String pass) {

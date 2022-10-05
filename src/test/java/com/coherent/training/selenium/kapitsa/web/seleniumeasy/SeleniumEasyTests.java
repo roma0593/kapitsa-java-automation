@@ -1,6 +1,6 @@
 package com.coherent.training.selenium.kapitsa.web.seleniumeasy;
 
-import com.coherent.training.selenium.kapitsa.web.base.TestUtilities;
+import com.coherent.training.selenium.kapitsa.web.base.BaseTest;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.AlertsPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DownloadProgressPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DropdownPage;
@@ -17,7 +17,7 @@ import static com.coherent.training.selenium.kapitsa.web.providers.UrlProvider.*
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class SeleniumEasyTests extends TestUtilities {
+public class SeleniumEasyTests extends BaseTest {
 
     @Parameters({"numberOfOptionsToSelect"})
     @Test

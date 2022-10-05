@@ -9,9 +9,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TestUtilities extends BaseTest {
+import static com.coherent.training.selenium.kapitsa.web.base.BaseTest.driver;
+
+public class TestUtilities {
+    protected static String testSuiteName;
+    protected static String testName;
+    protected static String testMethodName;
+
     @SneakyThrows
-    protected void takeScreenshot(String fileName){
+    public static void takeScreenshot(String fileName){
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         String path = System.getProperty("user.dir")
                 + File.separator + "test-output"
