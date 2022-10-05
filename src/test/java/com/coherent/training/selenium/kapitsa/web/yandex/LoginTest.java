@@ -1,17 +1,18 @@
 package com.coherent.training.selenium.kapitsa.web.yandex;
 
-import com.coherent.training.selenium.kapitsa.web.base.BaseTest;
+import com.coherent.training.selenium.kapitsa.web.base.TestUtilities;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MainPage;
 import com.coherent.training.selenium.kapitsa.web.utils.DataUtilization;
 import lombok.SneakyThrows;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import static com.coherent.training.selenium.kapitsa.web.providers.UrlProvider.YANDEX_MAIL;
 import static org.testng.Assert.assertEquals;
 
-public class LoginTest extends BaseTest {
-
+@Listeners({com.coherent.training.selenium.kapitsa.web.utils.TestListener.class})
+public class LoginTest extends TestUtilities {
     @SneakyThrows
     @Test(dataProviderClass = DataUtilization.class, dataProvider = "credProvider")
     public void login(String username, String pass) {
@@ -40,6 +41,8 @@ public class LoginTest extends BaseTest {
         mainPage = mainPage.getLoginPage()
                 .login(username, pass)
                 .logout();
+
+        takeScreenshot("successfulLogout");
 
         assertEquals(mainPage.getPageTitle(), "Yandex Mail — reliable and easy to use email with spam protection",
                 "Expected and actual page title mismatch");
