@@ -1,6 +1,9 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
-import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.*;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.AlertsPage;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DownloadProgressPage;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DropdownPage;
+import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DynamicDataLoadingPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.tablepage.TableSortSearchPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.LoginPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MailBoxPage;
@@ -10,10 +13,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
+import java.lang.reflect.Method;
 import java.time.Duration;
 
 public class BaseTest {
-    protected WebDriver driver;
+    protected static WebDriver driver;
     protected MainPage mainPage;
     protected LoginPage loginPage;
     protected MailBoxPage mailBoxPage;
@@ -25,7 +29,7 @@ public class BaseTest {
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
-    public void setUp(String browser){
+    public void setUp(String browser, Method method){
         BrowserDriverFactory factory = new BrowserDriverFactory(browser);
         driver = factory.createDriver();
 
