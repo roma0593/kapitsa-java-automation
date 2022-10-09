@@ -1,5 +1,6 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
+import com.coherent.training.selenium.kapitsa.web.pages.herokuapp.DownloadPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.AlertsPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DownloadProgressPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DropdownPage;
@@ -26,6 +27,7 @@ public class BaseTest {
     protected DownloadProgressPage downloadProgressPage;
     protected DynamicDataLoadingPage dynamicDataLoadingPage;
     protected TableSortSearchPage tableSortSearchPage;
+    protected DownloadPage downloadPage;
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)

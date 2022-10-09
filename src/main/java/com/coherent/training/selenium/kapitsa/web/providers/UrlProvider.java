@@ -6,7 +6,8 @@ public enum UrlProvider {
     SELENIUM_ALERT("https://demo.seleniumeasy.com/javascript-alert-box-demo.html"),
     SELENIUM_DOWNLOAD_PROGRESS("https://demo.seleniumeasy.com/bootstrap-download-progress-demo.html"),
     SELENIUM_DYNAMIC_DATA("https://demo.seleniumeasy.com/dynamic-data-loading-demo.html"),
-    SELENIUM_TABLE_SORT_SEARCH("https://demo.seleniumeasy.com/table-sort-search-demo.html");
+    SELENIUM_TABLE_SORT_SEARCH("https://demo.seleniumeasy.com/table-sort-search-demo.html"),
+    HEROKUAPP_DOWNLOAD("http://the-internet.herokuapp.com/download");
 
     private final String url;
 
