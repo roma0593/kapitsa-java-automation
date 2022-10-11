@@ -5,11 +5,10 @@ import com.coherent.training.selenium.kapitsa.web.pages.herokuapp.DownloadPage;
 import lombok.SneakyThrows;
 import org.testng.annotations.Test;
 
-import static com.coherent.training.selenium.kapitsa.web.providers.UrlProvider.*;
+import static com.coherent.training.selenium.kapitsa.web.providers.UrlProvider.HEROKUAPP_DOWNLOAD;
 import static com.coherent.training.selenium.kapitsa.web.utils.RequestUtil.*;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 public class DownloadTest extends BaseTest {
     @SneakyThrows
@@ -21,7 +20,8 @@ public class DownloadTest extends BaseTest {
 
         String link = downloadPage.getJpegHrefAttr();
 
-        assertThat(getContentType(link), is("application/octet-stream"));
-        assertThat(getContentLength(link), is(not(0)));
+        assertEquals(getContentType(link), "application/octet-stream",
+                "Expected and actual Content Type mismatch");
+        assertNotEquals(getContentLength(link), 0, "Content length equals 0");
     }
 }

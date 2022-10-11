@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class DownloadPage extends BasePageObject {
     @CacheLookup
-    @FindBy(xpath = "//a[text()='a.jpeg']")
+    @FindBy(xpath = "//a[normalize-space()='img.png']")
     private WebElement jpegLink;
 
     public DownloadPage(WebDriver driver) {
