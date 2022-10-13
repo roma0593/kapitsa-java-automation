@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 
 public class BaseTest {
-    protected static WebDriver driver;
+    public static WebDriver driver;
     protected MainPage mainPage;
     protected LoginPage loginPage;
     protected MailBoxPage mailBoxPage;

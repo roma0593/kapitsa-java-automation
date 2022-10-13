@@ -1,6 +1,7 @@
 package com.coherent.training.selenium.kapitsa.web.pages.yandex;
 
 import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -23,6 +24,7 @@ public class MailBoxPage extends BasePageObject {
         return userAccName.getText();
     }
 
+    @Step("click on logout")
     public MainPage logout(){
         clickOn(userAccName);
         clickOn(logoutButton);

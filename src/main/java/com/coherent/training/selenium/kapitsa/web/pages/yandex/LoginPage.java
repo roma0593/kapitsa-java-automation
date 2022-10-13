@@ -1,7 +1,7 @@
 package com.coherent.training.selenium.kapitsa.web.pages.yandex;
 
 import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
-import org.openqa.selenium.By;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -53,6 +53,7 @@ public class LoginPage extends BasePageObject {
         super(driver);
     }
 
+    @Step("Enter credentials and click login")
     public MailBoxPage login(String login, String pass){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
