@@ -18,7 +18,8 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 
 public class BaseTest {
-    public static WebDriver driver;
+    public static BrowserDriverFactory factory;
+    protected WebDriver driver;
     protected MainPage mainPage;
     protected LoginPage loginPage;
     protected MailBoxPage mailBoxPage;
@@ -32,7 +33,7 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
     public void setUp(String browser, Method method){
-        BrowserDriverFactory factory = new BrowserDriverFactory(browser);
+        factory = new BrowserDriverFactory(browser);
         driver = factory.createDriver();
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
