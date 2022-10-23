@@ -1,5 +1,6 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
+import com.coherent.training.selenium.kapitsa.web.providers.ConfigFileReader;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,7 +23,6 @@ public class BrowserDriverFactory {
     private static final String EDGE_DRIVER = "src/test/resources/drivers/msedgedriver.exe";
     private static final String DOWNLOAD_FOLDER = "downloadFiles";
     private static final String PROJECT_DIR = System.getProperty("user.dir");
-    private static final String HUB_URL = "http://172.29.192.1:4444";
     private Map<String, Object> prefs;
 
 
@@ -32,26 +32,29 @@ public class BrowserDriverFactory {
 
     @SneakyThrows
     public WebDriver createDriver(){
+        ConfigFileReader propertyReader = new ConfigFileReader();
+        String hubURL = propertyReader.getHubURL();
+
         switch (browser){
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
                 ChromeOptions chromeOptions = setChromeDownloadOptions();
-                driver.set(new RemoteWebDriver(new URL(HUB_URL), chromeOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), chromeOptions));
             break;
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", FIREFOX_DRIVER);
                 FirefoxOptions firefoxOptions = setFirefoxDownloadOptions();
-                driver.set(new RemoteWebDriver(new URL(HUB_URL), firefoxOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), firefoxOptions));
                 break;
             case "edge":
                 System.setProperty("webdriver.edge.driver", EDGE_DRIVER);
                 EdgeOptions edgeOptions = setEdgeDownloadOptions();
-                driver.set(new RemoteWebDriver(new URL(HUB_URL), edgeOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), edgeOptions));
                 break;
             default:
                 System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
                 ChromeOptions defChromeOptions = setChromeDownloadOptions();
-                driver.set(new RemoteWebDriver(new URL(HUB_URL), defChromeOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), defChromeOptions));
                 break;
         }
 
