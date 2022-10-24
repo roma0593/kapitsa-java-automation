@@ -15,14 +15,16 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.coherent.training.selenium.kapitsa.web.providers.ConfigFileReader.*;
+
 public class BrowserDriverFactory {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final String browser;
-    private static final String CHROME_DRIVER = "src/test/resources/drivers/chromedriver.exe";
-    private static final String FIREFOX_DRIVER = "src/test/resources/drivers/geckodriver.exe";
-    private static final String EDGE_DRIVER = "src/test/resources/drivers/msedgedriver.exe";
+    private static final String CHROME_DRIVER = getInstance().getDriverPath("chrome");
+    private static final String FIREFOX_DRIVER = getInstance().getDriverPath("firefox");
+    private static final String EDGE_DRIVER = getInstance().getDriverPath("edge");
     private static final String DOWNLOAD_FOLDER = "downloadFiles";
-    private static final String PROJECT_DIR = System.getProperty("user.dir");
+    private static final String PROJECT_DIR = getInstance().getProjectDir();
     private Map<String, Object> prefs;
 
 
@@ -32,8 +34,7 @@ public class BrowserDriverFactory {
 
     @SneakyThrows
     public WebDriver createDriver(){
-        ConfigFileReader propertyReader = new ConfigFileReader();
-        String hubURL = propertyReader.getHubURL();
+        String hubURL = getInstance().getHubURL();
 
         switch (browser){
             case "chrome":
