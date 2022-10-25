@@ -1,27 +1,30 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
+import com.coherent.training.selenium.kapitsa.web.providers.ConfigFileReader;
+import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.coherent.training.selenium.kapitsa.web.providers.ConfigFileReader.*;
 
 public class BrowserDriverFactory {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final String browser;
-    private static final String CHROME_DRIVER = "src/test/resources/drivers/chromedriver.exe";
-    private static final String FIREFOX_DRIVER = "src/test/resources/drivers/geckodriver.exe";
-    private static final String EDGE_DRIVER = "src/test/resources/drivers/msedgedriver.exe";
+    private static final String CHROME_DRIVER = getInstance().getDriverPath("chrome");
+    private static final String FIREFOX_DRIVER = getInstance().getDriverPath("firefox");
+    private static final String EDGE_DRIVER = getInstance().getDriverPath("edge");
     private static final String DOWNLOAD_FOLDER = "downloadFiles";
-    private static final String PROJECT_DIR = System.getProperty("user.dir");
+    private static final String PROJECT_DIR = getInstance().getProjectDir();
     private Map<String, Object> prefs;
 
 
@@ -29,27 +32,30 @@ public class BrowserDriverFactory {
         this.browser = browser.toLowerCase();
     }
 
+    @SneakyThrows
     public WebDriver createDriver(){
+        String hubURL = getInstance().getHubURL();
+
         switch (browser){
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
                 ChromeOptions chromeOptions = setChromeDownloadOptions();
-                driver.set(new ChromeDriver(chromeOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), chromeOptions));
             break;
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", FIREFOX_DRIVER);
                 FirefoxOptions firefoxOptions = setFirefoxDownloadOptions();
-                driver.set(new FirefoxDriver(firefoxOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), firefoxOptions));
                 break;
             case "edge":
                 System.setProperty("webdriver.edge.driver", EDGE_DRIVER);
                 EdgeOptions edgeOptions = setEdgeDownloadOptions();
-                driver.set(new EdgeDriver(edgeOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), edgeOptions));
                 break;
             default:
                 System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
                 ChromeOptions defChromeOptions = setChromeDownloadOptions();
-                driver.set(new ChromeDriver(defChromeOptions));
+                driver.set(new RemoteWebDriver(new URL(hubURL), defChromeOptions));
                 break;
         }
 

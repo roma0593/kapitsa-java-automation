@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Login Suite">
+<suite name="Login Suite" parallel="tests" thread-count="3">
 
-    <test name="positive login test">
+    <test name="positive login test with CH">
         <parameter name="browser" value="chrome"/>
+        <parameter name="username" value="t0ptester"/>
+        <parameter name="pass" value="72iNj8Gw36eRN9J"/>
+
+        <classes>
+            <class name="com.coherent.training.selenium.kapitsa.web.yandex.LoginTest"/>
+        </classes>
+    </test>
+    <test name="positive login test with FF">
+        <parameter name="browser" value="firefox"/>
         <parameter name="username" value="t0ptester"/>
         <parameter name="pass" value="72iNj8Gw36eRN9J"/>
 
