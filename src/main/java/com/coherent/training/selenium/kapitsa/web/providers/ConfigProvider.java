@@ -5,7 +5,10 @@ public enum ConfigProvider {
     PROJECT_DIR("projectDir"),
     CHROME_WEBDRIVER_PATH("chromePath"),
     FIREFOX_WEBDRIVER_PATH("firefoxPath"),
-    EDGE_WEBDRIVER_PATH("edgePath");
+    EDGE_WEBDRIVER_PATH("edgePath"),
+    SAUCE_USERNAME("sauceUsername"),
+    SAUCE_ACCESS_KEY("sauceAccessKey");
+
 
     private final String propertyKey;
 

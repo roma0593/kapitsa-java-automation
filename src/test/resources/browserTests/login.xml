@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Login Suite" parallel="tests" thread-count="3">
+<suite name="Login Suite" parallel="tests">
 
-    <test name="positive login test with CH">
-        <parameter name="browser" value="chrome"/>
+    <test name="positive login test with Edge">
+        <parameter name="browser" value="edge"/>
+        <parameter name="browserVersion" value="latest"/>
+        <parameter name="platformName" value="Windows 10"/>
+
+        <classes>
+            <class name="com.coherent.training.selenium.kapitsa.web.yandex.LoginTest"/>
+        </classes>
+    </test>
+    <test name="positive login test with Firefox">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="browserVersion" value="latest"/>
+        <parameter name="platformName" value="Windows 8.1"/>
         <parameter name="username" value="t0ptester"/>
         <parameter name="pass" value="72iNj8Gw36eRN9J"/>
 
@@ -11,8 +22,10 @@
             <class name="com.coherent.training.selenium.kapitsa.web.yandex.LoginTest"/>
         </classes>
     </test>
-    <test name="positive login test with FF">
-        <parameter name="browser" value="firefox"/>
+    <test name="positive login test with Chrome">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="browserVersion" value="48"/>
+        <parameter name="platformName" value="Linux"/>
         <parameter name="username" value="t0ptester"/>
         <parameter name="pass" value="72iNj8Gw36eRN9J"/>
 

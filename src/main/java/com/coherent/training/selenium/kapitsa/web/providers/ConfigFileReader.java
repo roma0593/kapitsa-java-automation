@@ -60,4 +60,18 @@ public class ConfigFileReader {
 
         return webDriverPath;
     }
+
+    public String getSauceUsername(){
+        String sauceUsername = properties.getProperty(SAUCE_USERNAME.getPropertyKey());
+
+        if (sauceUsername != null) return sauceUsername;
+        else throw new RuntimeException("sauceUsername is not specified");
+    }
+
+    public String getSauceAccessKey(){
+        String sauceAccessKey = properties.getProperty(SAUCE_ACCESS_KEY.getPropertyKey());
+
+        if (sauceAccessKey != null) return sauceAccessKey;
+        else throw new RuntimeException("sauceUsername is not specified");
+    }
 }
