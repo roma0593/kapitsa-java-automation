@@ -23,7 +23,7 @@ public class BrowserDriverFactory {
     private static final String CHROME_DRIVER = getInstance().getDriverPath("chrome");
     private static final String FIREFOX_DRIVER = getInstance().getDriverPath("firefox");
     private static final String EDGE_DRIVER = getInstance().getDriverPath("edge");
-    private static final String SAUCE_HUB = getInstance().getHubURL();
+    private static final String SAUCE_HUB = getInstance().getSeleniumSauceLabURL();
     private static final String SAUCE_USERNAME = getInstance().getSauceUsername();
     private static final String SAUCE_ACCESS_KEY = getInstance().getSauceAccessKey();
     private static final String DOWNLOAD_FOLDER = "downloadFiles";
