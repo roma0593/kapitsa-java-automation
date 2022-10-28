@@ -23,7 +23,7 @@ public class BrowserDriverFactory {
     private static final String CHROME_DRIVER = getInstance().getDriverPath("chrome");
     private static final String FIREFOX_DRIVER = getInstance().getDriverPath("firefox");
     private static final String EDGE_DRIVER = getInstance().getDriverPath("edge");
-    private static final String SAUCE_HUB = getInstance().getSeleniumSauceLabURL();
+    private static final String HUB_URL = getInstance().getHubURL();
     private static final String SAUCE_USERNAME = getInstance().getSauceUsername();
     private static final String SAUCE_ACCESS_KEY = getInstance().getSauceAccessKey();
     private static final String DOWNLOAD_FOLDER = "downloadFiles";
@@ -56,7 +56,7 @@ public class BrowserDriverFactory {
                 setBrowserVersionAndPlatform();
                 chromeOptions.setCapability("sauce:options", sauceOptions);
 
-                remoteWebDriver = new RemoteWebDriver(new URL(SAUCE_HUB), chromeOptions);
+                remoteWebDriver = new RemoteWebDriver(new URL(HUB_URL), chromeOptions);
                 driver.set(remoteWebDriver);
             break;
             case "firefox":
@@ -65,7 +65,7 @@ public class BrowserDriverFactory {
                 setBrowserVersionAndPlatform();
                 firefoxOptions.setCapability("sauce:options", sauceOptions);
 
-                remoteWebDriver = new RemoteWebDriver(new URL(SAUCE_HUB), firefoxOptions);
+                remoteWebDriver = new RemoteWebDriver(new URL(HUB_URL), firefoxOptions);
                 driver.set(remoteWebDriver);
                 break;
             case "edge":
@@ -74,7 +74,7 @@ public class BrowserDriverFactory {
                 setBrowserVersionAndPlatform();
                 edgeOptions.setCapability("sauce:options", sauceOptions);
 
-                remoteWebDriver = new RemoteWebDriver(new URL(SAUCE_HUB), edgeOptions);
+                remoteWebDriver = new RemoteWebDriver(new URL(HUB_URL), edgeOptions);
                 driver.set(remoteWebDriver);
                 break;
             default:
@@ -83,7 +83,7 @@ public class BrowserDriverFactory {
                 setBrowserVersionAndPlatform();
                 chromeOptions.setCapability("sauce:options", sauceOptions);
 
-                remoteWebDriver = new RemoteWebDriver(new URL(SAUCE_HUB), chromeOptions);
+                remoteWebDriver = new RemoteWebDriver(new URL(HUB_URL), chromeOptions);
                 driver.set(remoteWebDriver);
                 break;
         }

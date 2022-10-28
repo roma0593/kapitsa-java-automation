@@ -5,10 +5,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static com.coherent.training.selenium.kapitsa.web.providers.ConfigProvider.*;
 
@@ -54,24 +51,23 @@ public class ConfigFileReader {
         return SingletonConfigFileReader.INSTANCE;
     }
 
-    public String getSeleniumHubURL() {
+    public String getHubURL() {
         properties = getPropertyFromCache(PROFILE_PATH);
-        String profileKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), "HUB");
+        Set<Object> keySet = getAllKeys();
+
+        Iterator<Object> iterator = keySet.iterator();
+        String keyValue = (String) iterator.next();
+        String propProfileName = keyValue.substring(keyValue.indexOf(".") + 1).trim();
+
+        String profileKey;
+
+        if(propProfileName.equals("HUB")) profileKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), "HUB");
+        else profileKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), "SAUCELAB");
 
         String hubURL = properties.getProperty(profileKey);
 
         if (hubURL != null) return hubURL;
         else throw new RuntimeException("selenium hubURL is not specified");
-    }
-
-    public String getSeleniumSauceLabURL(){
-        properties = getPropertyFromCache(PROFILE_PATH);
-        String profileKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), "SAUCELAB");
-
-        String hubURL = properties.getProperty(profileKey);
-
-        if (hubURL != null) return hubURL;
-        else throw new RuntimeException("SauceLab hubURL is not specified");
     }
 
     public String getProjectDir(){
@@ -117,5 +113,9 @@ public class ConfigFileReader {
 
         if (sauceAccessKey != null) return sauceAccessKey;
         else throw new RuntimeException("sauceUsername is not specified");
+    }
+
+    private Set<Object> getAllKeys(){
+        return properties.keySet();
     }
 }
