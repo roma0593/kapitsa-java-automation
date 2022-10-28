@@ -53,18 +53,12 @@ public class ConfigFileReader {
 
     public String getHubURL() {
         properties = getPropertyFromCache(PROFILE_PATH);
-        Set<Object> keySet = getAllKeys();
 
-        Iterator<Object> iterator = keySet.iterator();
-        String keyValue = (String) iterator.next();
-        String propProfileName = keyValue.substring(keyValue.indexOf(".") + 1).trim();
+        String profileKey = properties.getProperty(SELENIUM_PROFILE.getPropertyKey());
 
-        String profileKey;
+        String urlKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), profileKey);
 
-        if(propProfileName.equals("HUB")) profileKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), "HUB");
-        else profileKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), "SAUCELAB");
-
-        String hubURL = properties.getProperty(profileKey);
+        String hubURL = properties.getProperty(urlKey);
 
         if (hubURL != null) return hubURL;
         else throw new RuntimeException("selenium hubURL is not specified");
@@ -113,9 +107,5 @@ public class ConfigFileReader {
 
         if (sauceAccessKey != null) return sauceAccessKey;
         else throw new RuntimeException("sauceUsername is not specified");
-    }
-
-    private Set<Object> getAllKeys(){
-        return properties.keySet();
     }
 }

@@ -8,7 +8,8 @@ public enum ConfigProvider {
     EDGE_WEBDRIVER_PATH("edgePath"),
     SAUCE_USERNAME("sauceUsername"),
     SAUCE_ACCESS_KEY("sauceAccessKey"),
-    SELENIUM_URL_KEY("%s.selenium.url");
+    SELENIUM_URL_KEY("%s.selenium.url"),
+    SELENIUM_PROFILE("profile");
 
 
     private final String propertyKey;
