@@ -1,22 +1,46 @@
 package com.coherent.training.selenium.kapitsa.web.providers;
 
 import lombok.SneakyThrows;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Properties;
+import java.util.*;
 
 import static com.coherent.training.selenium.kapitsa.web.providers.ConfigProvider.*;
 
 public class ConfigFileReader {
-    private final Properties properties;
+    private Properties properties;
+    private Map<String, Properties> propsCache;
     private static final String CONFIG_PATH = "configs//config.properties";
+    private static final String PROFILE_PATH = "configs//profile.properties";
 
     @SneakyThrows
     private ConfigFileReader(){
-        BufferedReader reader = new BufferedReader(new FileReader(CONFIG_PATH));
-        properties = new Properties();
-        properties.load(reader);
+        setPropsCache();
+    }
+
+    @SneakyThrows
+    private void setPropsCache(){
+        List<String> propPathList = List.of(CONFIG_PATH, PROFILE_PATH);
+        propsCache = new HashMap<>();
+        BufferedReader reader;
+
+        for(String propPath : propPathList){
+            reader = new BufferedReader(new FileReader(propPath));
+            Properties property = new Properties();
+            property.load(reader);
+
+            String propertyName = FilenameUtils.getName(propPath);
+
+            propsCache.put(propertyName, property);
+        }
+    }
+
+    private Properties getPropertyFromCache(String path){
+        String propertyName = FilenameUtils.getName(path);
+
+        return propsCache.get(propertyName);
     }
 
     private static class SingletonConfigFileReader{
@@ -28,13 +52,20 @@ public class ConfigFileReader {
     }
 
     public String getHubURL() {
-        String hubURL = properties.getProperty(HUB_URL.getPropertyKey());
+        properties = getPropertyFromCache(PROFILE_PATH);
+
+        String profileKey = properties.getProperty(SELENIUM_PROFILE.getPropertyKey());
+
+        String urlKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), profileKey);
+
+        String hubURL = properties.getProperty(urlKey);
 
         if (hubURL != null) return hubURL;
-        else throw new RuntimeException("hubURL is not specified");
+        else throw new RuntimeException("selenium hubURL is not specified");
     }
 
     public String getProjectDir(){
+        properties = getPropertyFromCache(CONFIG_PATH);
         String projectDir = properties.getProperty(PROJECT_DIR.getPropertyKey());
 
         if (projectDir != null) return projectDir;
@@ -43,6 +74,7 @@ public class ConfigFileReader {
 
     public String getDriverPath(String browserName){
         String webDriverPath;
+        properties = getPropertyFromCache(CONFIG_PATH);
 
         switch (browserName){
             case "chrome":
@@ -59,5 +91,21 @@ public class ConfigFileReader {
         }
 
         return webDriverPath;
+    }
+
+    public String getSauceUsername(){
+        properties = getPropertyFromCache(CONFIG_PATH);
+        String sauceUsername = properties.getProperty(SAUCE_USERNAME.getPropertyKey());
+
+        if (sauceUsername != null) return sauceUsername;
+        else throw new RuntimeException("sauceUsername is not specified");
+    }
+
+    public String getSauceAccessKey(){
+        properties = getPropertyFromCache(CONFIG_PATH);
+        String sauceAccessKey = properties.getProperty(SAUCE_ACCESS_KEY.getPropertyKey());
+
+        if (sauceAccessKey != null) return sauceAccessKey;
+        else throw new RuntimeException("sauceUsername is not specified");
     }
 }

@@ -10,6 +10,7 @@ import com.coherent.training.selenium.kapitsa.web.pages.yandex.LoginPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MailBoxPage;
 import com.coherent.training.selenium.kapitsa.web.pages.yandex.MainPage;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
@@ -30,10 +31,10 @@ public class BaseTest {
     protected TableSortSearchPage tableSortSearchPage;
     protected DownloadPage downloadPage;
 
-    @Parameters({"browser"})
+    @Parameters({"browser", "browserVersion", "platformName"})
     @BeforeMethod(alwaysRun = true)
-    public void setUp(String browser, Method method){
-        factory = new BrowserDriverFactory(browser);
+    public void setUp(String browser, String browserVersion, String platformName, Method method){
+        factory = new BrowserDriverFactory(browser, browserVersion, platformName, method);
         driver = factory.createDriver();
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
@@ -41,7 +42,10 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown(ITestResult result){
+        String status = result.isSuccess() ? "passed" : "failed";
+        factory.setTestStatusInSauceReport(status);
+
         driver.quit();
     }
 }
