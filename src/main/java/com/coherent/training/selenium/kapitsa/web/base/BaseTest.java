@@ -1,6 +1,9 @@
 package com.coherent.training.selenium.kapitsa.web.base;
 
 import com.coherent.training.selenium.kapitsa.web.pages.herokuapp.DownloadPage;
+import com.coherent.training.selenium.kapitsa.web.pages.onliner.CompareProductsPage;
+import com.coherent.training.selenium.kapitsa.web.pages.onliner.HomePage;
+import com.coherent.training.selenium.kapitsa.web.pages.onliner.ProductListPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.AlertsPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DownloadProgressPage;
 import com.coherent.training.selenium.kapitsa.web.pages.seleniumeasy.DropdownPage;
@@ -18,7 +21,9 @@ import org.testng.annotations.Parameters;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-public class BaseTest {
+import static com.coherent.training.selenium.kapitsa.web.providers.ConfigFileReader.getInstance;
+
+public class BaseTest{
     public static BrowserDriverFactory factory;
     protected WebDriver driver;
     protected MainPage mainPage;
@@ -30,6 +35,9 @@ public class BaseTest {
     protected DynamicDataLoadingPage dynamicDataLoadingPage;
     protected TableSortSearchPage tableSortSearchPage;
     protected DownloadPage downloadPage;
+    protected HomePage homePage;
+    protected ProductListPage productListPage;
+    protected CompareProductsPage compareProductsPage;
 
     @Parameters({"browser", "browserVersion", "platformName"})
     @BeforeMethod(alwaysRun = true)
@@ -43,8 +51,10 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(ITestResult result){
-        String status = result.isSuccess() ? "passed" : "failed";
-        factory.setTestStatusInSauceReport(status);
+        if(!getInstance().getProfile().equals("LOCAL")) {
+            String status = result.isSuccess() ? "passed" : "failed";
+            factory.setTestStatusInSauceReport(status);
+        }
 
         driver.quit();
     }

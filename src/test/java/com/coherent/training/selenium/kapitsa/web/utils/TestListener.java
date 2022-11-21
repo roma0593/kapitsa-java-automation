@@ -25,7 +25,9 @@ public class TestListener extends TestUtilities implements ITestListener, TestLi
         if(result.getStatus().name().equalsIgnoreCase("FAILED")){
             takeScreenshot();
             getBrowserName();
-            getBrowserVersion();
+            getPlatformVersion();
+            getTodaysDate();
+            getSystemTime();
         }
     }
 }

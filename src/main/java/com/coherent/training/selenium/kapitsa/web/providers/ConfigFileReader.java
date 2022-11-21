@@ -11,7 +11,7 @@ import static com.coherent.training.selenium.kapitsa.web.providers.ConfigProvide
 
 public class ConfigFileReader {
     private Properties properties;
-    private Map<String, Properties> propsCache;
+    private static Map<String, Properties> propsCache;
     private static final String CONFIG_PATH = "configs//config.properties";
     private static final String PROFILE_PATH = "configs//profile.properties";
 
@@ -37,7 +37,7 @@ public class ConfigFileReader {
         }
     }
 
-    private Properties getPropertyFromCache(String path){
+    private static Properties getPropertyFromCache(String path){
         String propertyName = FilenameUtils.getName(path);
 
         return propsCache.get(propertyName);
@@ -51,14 +51,18 @@ public class ConfigFileReader {
         return SingletonConfigFileReader.INSTANCE;
     }
 
-    public String getHubURL() {
+    public String getHubURL(String... browserName) {
         properties = getPropertyFromCache(PROFILE_PATH);
 
         String profileKey = properties.getProperty(SELENIUM_PROFILE.getPropertyKey());
+        String hubURL;
 
-        String urlKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), profileKey);
-
-        String hubURL = properties.getProperty(urlKey);
+        if(profileKey.equals("LOCAL")) {
+            hubURL = getDriverPath(browserName[0]);
+        } else {
+            String urlKey = String.format(SELENIUM_URL_KEY.getPropertyKey(), profileKey);
+            hubURL = properties.getProperty(urlKey);
+        }
 
         if (hubURL != null) return hubURL;
         else throw new RuntimeException("selenium hubURL is not specified");
@@ -107,5 +111,11 @@ public class ConfigFileReader {
 
         if (sauceAccessKey != null) return sauceAccessKey;
         else throw new RuntimeException("sauceUsername is not specified");
+    }
+
+    public String getProfile(){
+        properties = getPropertyFromCache(PROFILE_PATH);
+
+        return properties.getProperty(SELENIUM_PROFILE.getPropertyKey());
     }
 }
