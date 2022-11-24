@@ -19,7 +19,6 @@ public class TestUtilities {
     protected String testSuiteName;
     protected String testName;
     protected String testMethodName;
-    protected String methodName;
 
     private WebDriver getWebDriver(){
         return factory.createDriver();

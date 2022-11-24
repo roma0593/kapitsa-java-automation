@@ -1,5 +1,7 @@
 package com.coherent.training.selenium.kapitsa.web.pages.base;
 
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
@@ -16,7 +18,7 @@ public class BasePageObject {
     private JavascriptExecutor js;
     private Actions action;
     private static final int DEFAULT_WAIT_TIME = 30;
-    private static final long FREQUENCY_TIME = 250L;
+    private static final long FREQUENCY_TIME = 500L;
 
     public BasePageObject(WebDriver driver) {
         this.driver = driver;
@@ -29,7 +31,8 @@ public class BasePageObject {
         Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(timeoutInSeconds))
                 .pollingEvery(Duration.ofMillis(FREQUENCY_TIME))
-                .ignoring(NoSuchElementException.class);
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
         wait.until(expectedCondition);
     }
 
@@ -39,7 +42,8 @@ public class BasePageObject {
         Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(timeoutInSeconds))
                 .pollingEvery(Duration.ofMillis(FREQUENCY_TIME))
-                .ignoring(NoSuchElementException.class);
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
         wait.until(expectedCondition);
     }
 
@@ -55,9 +59,20 @@ public class BasePageObject {
                 timeoutInSeconds.length > 0 ? timeoutInSeconds[0] : null);
     }
 
-    protected void waitForElementsToBePresented(By locator, Integer... timeoutInSeconds) {
-        waitForWebElements(ExpectedConditions.presenceOfAllElementsLocatedBy(locator),
+    protected void waitForElementsToBeVisibleBy(By locator, Integer... timeoutInSeconds){
+        waitForWebElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator),
                 timeoutInSeconds.length > 0 ? timeoutInSeconds[0] : null);
+    }
+
+    protected void waitForElementToBeStaleness(WebElement element, Integer... timeoutInSeconds){
+        waitForBoolean(ExpectedConditions.stalenessOf(element),
+                timeoutInSeconds.length > 0 ? timeoutInSeconds[0] : null);
+    }
+
+    protected void waitForElementsToBeStaleness(List<WebElement> elements){
+        for(WebElement element : elements){
+            waitForElementToBeStaleness(element);
+        }
     }
 
     protected void waitForElementToBeClickable(WebElement locator, Integer... timeoutInSeconds) {
@@ -77,14 +92,8 @@ public class BasePageObject {
     }
 
     protected List<WebElement> findAll(By locator) {
-        int attempt = 0;
-        while (attempt < 20) {
-            try {
-                waitForElementsToBePresented(locator);
-            } catch (StaleElementReferenceException ignored) {
-            }
-            attempt++;
-        }
+        waitForElementsToBeVisibleBy(locator);
+
         return driver.findElements(locator);
     }
 
@@ -96,19 +105,12 @@ public class BasePageObject {
         return parentElement.findElements(childLocator);
     }
 
-    protected WebElement find(By locator){
+    protected WebElement find(By locator) {
         return driver.findElement(locator);
     }
 
     protected void clickOn(WebElement element) {
-        int attempt = 0;
-        while (attempt < 20) {
-            try {
-                waitForElementToBeClickable(element);
-            } catch (StaleElementReferenceException ignored) {
-            }
-            attempt++;
-        }
+        waitForElementToBeClickable(element);
 
         element.click();
     }
@@ -168,17 +170,10 @@ public class BasePageObject {
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
-    protected void hoverOverAndClick(WebElement hoverElement) {
-        hoverOver(hoverElement);
-
-        action.click().build().perform();
-
-    }
-
     protected void hoverOver(WebElement hoverElement) {
         action = new Actions(driver);
 
-        action.moveToElement(hoverElement);
+        action.moveToElement(hoverElement).perform();
     }
 
     protected void switchToCurrentWindow() {
@@ -188,11 +183,22 @@ public class BasePageObject {
     }
 
     protected void selectCheckbox(WebElement checkbox) {
-        waitForElementToBeClickable(checkbox);
-
         scrollToElement(checkbox);
 
         js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", checkbox);
+    }
+
+    @SneakyThrows
+    protected By getWebElementsBy(List<WebElement> element) {
+        Object proxyOrigin = FieldUtils.readField(element, "h", true);
+        Object locator = FieldUtils.readField(proxyOrigin, "locator", true);
+        Object findBy = FieldUtils.readField(locator, "by", true);
+
+        if (findBy != null) {
+            return (By) findBy;
+        }
+
+        return null;
     }
 }

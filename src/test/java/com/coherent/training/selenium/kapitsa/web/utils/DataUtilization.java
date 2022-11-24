@@ -40,12 +40,23 @@ public class DataUtilization {
     }
 
     @DataProvider(name = "onlinerDataForFiltering")
-    public static Object[][] onlinerDataProvider() {
+    public static Object[][] onlinerDataProviderForFiltering() {
+        List<String> keyList = List.of("categoryName", "subCategoryName", "productName", "filter1", "filter2");
+
+        return onlinerDataProvider(keyList);
+    }
+
+    @DataProvider(name = "onlinerDataForComparing")
+    public static Object[][] onlinerDataProviderForComparing() {
+        List<String> keyList = List.of("categoryName", "subCategoryName", "productName", "filter1", "filter2", "productNoToCompare1", "productNoToCompare2");
+
+        return onlinerDataProvider(keyList);
+    }
+
+    private static Object[][] onlinerDataProvider(List<String> keyList){
         jsonParser = new JsonParser();
 
         List<Map<String, String>> onlinerDataMapList = jsonParser.getOnlinerDataFromJson(new File(REG_DATA_PATH));
-
-        List<String> keyList = List.of("categoryName", "subCategoryName", "productName", "filter1", "filter2");
 
         String[][] dataArray = new String[onlinerDataMapList.size()][keyList.size()];
 

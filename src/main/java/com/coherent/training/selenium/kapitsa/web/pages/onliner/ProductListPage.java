@@ -2,6 +2,7 @@ package com.coherent.training.selenium.kapitsa.web.pages.onliner;
 
 import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
 import com.coherent.training.selenium.kapitsa.web.providers.onlinerMenu.Filter;
+import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,40 +15,53 @@ public class ProductListPage extends BasePageObject {
     private WebElement confirmLocationButton;
     @FindBy(xpath = "//a[@class='compare-button__sub compare-button__sub_main']")
     private WebElement compareButton;
+    @FindBy(xpath = "//div[@class='schema-product__compare']")
+    private List<WebElement> compareCheckboxes;
+    @FindBy(xpath = "//div[@class='schema-product__group']")
+    private List<WebElement> productList;
 
-    private final By productListLocator = By.xpath("//div[@class='schema-product__group']");
-    private final By compareCheckboxesLocator = By.xpath("//div[@class='schema-product__compare']");
-    private static final String FILTER_XPATH_PATTERN = "//span[text()='%s']//preceding-sibling::span";
     private static final int NUMBER_OF_NOT_SORTED_PRODUCTS_ON_PAGE = 30;
+    private static final String FILTER_XPATH_PATTERN = "//span[text()='%s']//preceding-sibling::span";
+    private static final String FILTER_CHECKBOX_XPATH_PATTERN = "//span[text()='%s']//preceding-sibling::span//child::input";
 
     public ProductListPage(WebDriver driver) {
         super(driver);
     }
 
-    public void filterProductsBy(String... filterNames){
+    public void filterProductsBy(String... filterNames) {
         Filter.Builder builder = Filter.Builder.newInstance();
 
         for (int i = 0; i < filterNames.length; i++) {
-            switch (i){
-                case 0: builder.setFilter1(filterNames[i]);
+            switch (i) {
+                case 0:
+                    builder.setFilter1(filterNames[i]);
                     break;
-                case 1: builder.setFilter2(filterNames[i]);
+                case 1:
+                    builder.setFilter2(filterNames[i]);
                     break;
-                case 2: builder.setFilter3(filterNames[i]);
+                case 2:
+                    builder.setFilter3(filterNames[i]);
                     break;
-                case 3: builder.setFilter4(filterNames[i]);
+                case 3:
+                    builder.setFilter4(filterNames[i]);
                     break;
-                case 4: builder.setFilter5(filterNames[i]);
+                case 4:
+                    builder.setFilter5(filterNames[i]);
                     break;
-                case 5: builder.setFilter6(filterNames[i]);
+                case 5:
+                    builder.setFilter6(filterNames[i]);
                     break;
-                case 6: builder.setFilter7(filterNames[i]);
+                case 6:
+                    builder.setFilter7(filterNames[i]);
                     break;
-                case 7: builder.setFilter8(filterNames[i]);
+                case 7:
+                    builder.setFilter8(filterNames[i]);
                     break;
-                case 8: builder.setFilter9(filterNames[i]);
+                case 8:
+                    builder.setFilter9(filterNames[i]);
                     break;
-                case 9: builder.setFilter10(filterNames[i]);
+                case 9:
+                    builder.setFilter10(filterNames[i]);
                     break;
                 default:
                     throw new RuntimeException("Number of filters exceed allowable");
@@ -59,7 +73,7 @@ public class ProductListPage extends BasePageObject {
         applyFilter(filter);
     }
 
-    private void applyFilter(Filter filter){
+    private void applyFilter(Filter filter) {
         String[] filterArray = filter.getFilterArray();
 
         selectCheckbox(confirmLocationButton);
@@ -73,43 +87,52 @@ public class ProductListPage extends BasePageObject {
         }
     }
 
-    public CompareProductsPage compareProducts(int... productNumbersToCompare){
-        List<WebElement> productList = findAll(productListLocator);
-        List<WebElement> compareCheckboxes = findAll(compareCheckboxesLocator);
+    public boolean isFiltersSelected(String... filters) {
+        boolean isFilterSelected = false;
 
-        if(productList.size() <= 1) throw new RuntimeException("The only one product left after filtering");
+        for (String filterName : filters) {
+            String filterXpath = String.format(FILTER_CHECKBOX_XPATH_PATTERN, filterName);
 
-        for(int productNumber : productNumbersToCompare){
-            if(productNumber < compareCheckboxes.size())
-                clickOn(compareCheckboxes.get(productNumber - 1));
+            WebElement filterCheckbox = driver.findElement(By.xpath(filterXpath));
+
+            isFilterSelected = filterCheckbox.isSelected();
         }
 
-        waitForElementToBeVisibleAt(compareButton);
+        return isFilterSelected;
+    }
+
+    public CompareProductsPage compareProducts(String... productNumbersToCompare) {
+        waitForElementsToBeStaleness(productList);
+
+        List<WebElement> productListAfterFiltering = findAll(getWebElementsBy(productList));
+        List<WebElement> compareCheckboxesAfterFiltering = findAll(getWebElementsBy(compareCheckboxes));
+
+        if (productListAfterFiltering.size() <= 1) throw new RuntimeException("The only one product left after filtering");
+
+        for (String productNumber : productNumbersToCompare) {
+            int productNumberId = Integer.parseInt(productNumber);
+            WebElement compareCheckbox = compareCheckboxesAfterFiltering.get(productNumberId - 1);
+
+            if (productNumberId < compareCheckboxesAfterFiltering.size())
+                scrollToElement(compareCheckbox);
+                clickOn(compareCheckbox);
+        }
+
         clickOn(compareButton);
+
         switchToCurrentWindow();
 
         return new CompareProductsPage(driver);
     }
 
-    public boolean isProductsSorted(){
-        List<WebElement> productList = findAll(productListLocator);
-        int numberOfSortedProducts = productList.size();
+    @SneakyThrows
+    public boolean isProductsSorted() {
+        waitForElementsToBeStaleness(productList);
 
-        return numberOfSortedProducts > NUMBER_OF_NOT_SORTED_PRODUCTS_ON_PAGE;
-    }
+        List<WebElement> productListAfterSorting = findAll(getWebElementsBy(productList));
 
-    public boolean isFiltersSelected(String... filters){
-        String filterCheckboxXpathPattern = "//span[text()='%s']//preceding-sibling::span//child::input";
-        boolean isFilterSelected = false;
+        int numberOfSortedProducts = productListAfterSorting.size();
 
-        for (String filterName : filters) {
-                String filterXpath = String.format(filterCheckboxXpathPattern, filterName);
-
-                WebElement filterCheckbox = driver.findElement(By.xpath(filterXpath));
-
-                isFilterSelected = filterCheckbox.isSelected();
-        }
-
-        return isFilterSelected;
+        return numberOfSortedProducts < NUMBER_OF_NOT_SORTED_PRODUCTS_ON_PAGE;
     }
 }

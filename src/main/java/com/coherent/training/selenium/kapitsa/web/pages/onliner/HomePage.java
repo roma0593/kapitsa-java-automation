@@ -15,6 +15,9 @@ public class HomePage extends BasePageObject {
     private WebElement catalogNavigation;
     @FindBy(xpath = "//div[@class='catalog-navigation-list__aside-item catalog-navigation-list__aside-item_active']//a[@class='catalog-navigation-list__dropdown-item']")
     private List<WebElement> productItems;
+    private static final String CATEGORY_ITEM_PATTERN = "//li[@class='catalog-navigation-classifier__item ' and @data-id = '%s']";
+    private static final String SUB_CATEGORY_ITEM_PATTERN = "//div[@class='catalog-navigation-list__category' and @data-id='%s']//div[@class='catalog-navigation-list__aside-item']";
+
     private final Linkage linkage = new Linkage();
     private final List<String> categoryList = linkage.getListOfCategories();
     private final Map<String, List<String>> categorySubCategoriesMap = linkage.getCategorySubCategoriesMap();
@@ -36,10 +39,10 @@ public class HomePage extends BasePageObject {
     public void openCategory(String categoryName){
         int categoryId = getCategoryId(categoryName);
 
-        String categoryItemPattern = "//li[@class='catalog-navigation-classifier__item ' and @data-id = '%s']";
-        String categoryItemXpath = String.format(categoryItemPattern, categoryId);
+        String categoryItemXpath = String.format(CATEGORY_ITEM_PATTERN, categoryId);
 
         WebElement catalogElement = findElementAtElement(catalogNavigation, By.xpath(categoryItemXpath));
+
         clickOn(catalogElement);
     }
 
@@ -48,18 +51,17 @@ public class HomePage extends BasePageObject {
 
         int subCategoryId = getSubCategoryId(categoryName, subCategoryName);
 
-        String subCategoryItemsPattern = "//div[@class='catalog-navigation-list__category' and @data-id='%s']//div[@class='catalog-navigation-list__aside-item']";
-        String subCategoryItemsXpath = String.format(subCategoryItemsPattern, categoryId);
+        String subCategoryItemsXpath = String.format(SUB_CATEGORY_ITEM_PATTERN, categoryId);
 
-        WebElement subCategoryElement = findAll(By.xpath(subCategoryItemsXpath)).get(subCategoryId);
+        List<WebElement> subCategoryElements = findAll(By.xpath(subCategoryItemsXpath));
 
-        hoverOverAndClick(subCategoryElement);
+        hoverOver(subCategoryElements.get(subCategoryId));
     }
 
     public void openProduct(String subCategoryName, String productName){
         int productId = getProductId(subCategoryName, productName);
 
-        WebElement productItem = findAll(By.xpath("//div[@class='catalog-navigation-list__aside-item catalog-navigation-list__aside-item_active']//a[@class='catalog-navigation-list__dropdown-item']")).get(productId);
+        WebElement productItem = productItems.get(productId);
 
         clickOn(productItem);
     }
