@@ -1,4 +1,4 @@
-package com.coherent.training.selenium.kapitsa.web.utils;
+package com.coherent.training.selenium.kapitsa.web.utils.pojos;
 
 public class Credentials {
     private final String username;

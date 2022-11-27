@@ -57,11 +57,17 @@ public class TestUtilities {
         return capabilities.getBrowserVersion();
     }
 
-    private String getTodaysDate() {
+    @Attachment(value = "platform version", type = "plain/text")
+    protected String getPlatformVersion(){
+        Capabilities capabilities = ((RemoteWebDriver) getWebDriver()).getCapabilities();
+        return String.valueOf(capabilities.getPlatformName().getMajorVersion());
+    }
+
+    protected String getTodaysDate() {
         return (new SimpleDateFormat("yyyyMMdd").format(new Date()));
     }
 
-    private String getSystemTime() {
+    protected String getSystemTime() {
         return (new SimpleDateFormat("HHmmssSSS").format(new Date()));
     }
 }
