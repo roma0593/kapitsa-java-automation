@@ -3,9 +3,9 @@
     "categoryName": "Электроника",
     "subCategoryName": "Гаджеты",
     "productName": "Умные часы",
-    "filter1": "Amazfit",
-    "filter2": "Мобилайн",
     "productNoToCompare1": "2",
-    "productNoToCompare2": "4"
+    "productNoToCompare2": "4",
+    "vendor": "Amazfit",
+    "shop": "Мобилайн"
   }
 ]

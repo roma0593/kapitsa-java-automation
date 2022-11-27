@@ -1,5 +1,10 @@
 package com.coherent.training.selenium.kapitsa.web.utils;
 
+import com.coherent.training.selenium.kapitsa.web.utils.pojos.Credentials;
+import com.coherent.training.selenium.kapitsa.web.utils.pojos.Filter;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
@@ -14,7 +19,6 @@ import java.util.stream.Collectors;
 
 public class JsonParser{
     private final Gson gson;
-    private BufferedReader reader;
 
     public JsonParser() {
         gson = new Gson();
@@ -22,19 +26,35 @@ public class JsonParser{
 
     @SneakyThrows
     public Credentials[] getCredArrayFromJson(File file) {
-        reader = new BufferedReader(new FileReader(file));
-        String credentials = reader.lines().collect(Collectors.joining());
+        String credentials = readFromJson(file);
 
         return gson.fromJson(credentials, Credentials[].class);
     }
 
     @SneakyThrows
+    public Filter[] getFilterArrayFromJson(File file) {
+        String filters = readFromJson(file);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+
+
+        return mapper.readValue(filters, new TypeReference<>(){});
+    }
+
+    @SneakyThrows
     public List<Map<String, String>> getOnlinerDataFromJson(File file){
-        reader = new BufferedReader(new FileReader(file));
-        String onlinerData = reader.lines().collect(Collectors.joining());
+        String onlinerData = readFromJson(file);
 
         Type onlinerDataMapType = new TypeToken<List<Map<String, String>>>() {}.getType();
         return gson.fromJson(onlinerData, onlinerDataMapType);
+    }
+
+    @SneakyThrows
+    private String readFromJson(File file){
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        return reader.lines().collect(Collectors.joining());
     }
 
 }

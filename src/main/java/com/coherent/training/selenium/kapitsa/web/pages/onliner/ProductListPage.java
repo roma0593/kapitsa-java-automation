@@ -1,7 +1,6 @@
 package com.coherent.training.selenium.kapitsa.web.pages.onliner;
 
 import com.coherent.training.selenium.kapitsa.web.pages.base.BasePageObject;
-import com.coherent.training.selenium.kapitsa.web.providers.onlinerMenu.Filter;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -28,57 +27,10 @@ public class ProductListPage extends BasePageObject {
         super(driver);
     }
 
-    public void filterProductsBy(String... filterNames) {
-        Filter.Builder builder = Filter.Builder.newInstance();
-
-        for (int i = 0; i < filterNames.length; i++) {
-            switch (i) {
-                case 0:
-                    builder.setFilter1(filterNames[i]);
-                    break;
-                case 1:
-                    builder.setFilter2(filterNames[i]);
-                    break;
-                case 2:
-                    builder.setFilter3(filterNames[i]);
-                    break;
-                case 3:
-                    builder.setFilter4(filterNames[i]);
-                    break;
-                case 4:
-                    builder.setFilter5(filterNames[i]);
-                    break;
-                case 5:
-                    builder.setFilter6(filterNames[i]);
-                    break;
-                case 6:
-                    builder.setFilter7(filterNames[i]);
-                    break;
-                case 7:
-                    builder.setFilter8(filterNames[i]);
-                    break;
-                case 8:
-                    builder.setFilter9(filterNames[i]);
-                    break;
-                case 9:
-                    builder.setFilter10(filterNames[i]);
-                    break;
-                default:
-                    throw new RuntimeException("Number of filters exceed allowable");
-            }
-        }
-
-        Filter filter = builder.build();
-
-        applyFilter(filter);
-    }
-
-    private void applyFilter(Filter filter) {
-        String[] filterArray = filter.getFilterArray();
-
+    public void applyFilter(String... filters) {
         selectCheckbox(confirmLocationButton);
 
-        for (String filterName : filterArray) {
+        for (String filterName : filters) {
             if (filterName != null) {
                 String filterXpath = String.format(FILTER_XPATH_PATTERN, filterName);
                 WebElement filterCheckbox = find(By.xpath(filterXpath));

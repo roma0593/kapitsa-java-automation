@@ -22,6 +22,7 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     public void login(String username, String pass) {
         driver.get(YANDEX_MAIL.getUrl());
+
         mainPage = new MainPage(driver);
 
         loginPage = mainPage.getLoginPage();
